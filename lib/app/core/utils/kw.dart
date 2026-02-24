@@ -1,0 +1,171 @@
+import 'package:get/get.dart';
+
+/// Kuwait provinces and regions data (Arabic & English)
+class KwLocations {
+  static const Map<String, Map<String, List<String>>> provincesWithRegions = {
+    "ar": {
+      "محافظة العاصمة": [
+        "السالمية",
+        "الشويخ",
+        "المرقاب",
+        "القبلة",
+        "المنصورية",
+        "الشعب",
+        "شرق",
+        "المباركية",
+        "الدسمة",
+        "الصوابر",
+        "المنطقة التجارية الحرة",
+      ],
+      "محافظة حولي": [
+        "حولى",
+        "السالمية",
+        "ميدان حولي",
+        "الرميثية",
+        "النقرة",
+        "الضاحية",
+        "الشهداء",
+        "النعيم",
+        "الجابرية",
+        "مبارك الكبير",
+      ],
+      "محافظة الفروانية": [
+        "الفروانية",
+        "جليب الشيوخ",
+        "العارضية",
+        "خيطان",
+        "الأندلس",
+        "الرقعي",
+        "الزهراء",
+        "نعيجة",
+        "المهبولة",
+        "العقيلة",
+        "الظهرة",
+        "الدوحة",
+      ],
+      "محافظة مبارك الكبير": [
+        "مبارك الكبير",
+        "القصور",
+        "الزهراء",
+        "الفنطاس",
+        "ضاحية فهد الأحمد",
+        "الهاشمية",
+        "النزهة",
+      ],
+      "محافظة الأحمدي": [
+        "الأحمدي",
+        "صباح الأحمد",
+        "الفحيحيل",
+        "المنقف",
+        "الخيران",
+        "الزهراء",
+        "القرين",
+        "الشعيبة",
+        "الدوحة",
+      ],
+      "محافظة الجهراء": [
+        "الجهراء",
+        "المطلاع",
+        "الصليبية",
+        "العيون",
+        "القصر",
+        "كبد",
+        "الهدار",
+        "الواحة",
+        "الشمال",
+        "مصفاة الأحمدي",
+        "الرجيلية",
+        "الشويخ الصناعية",
+        "القصور",
+      ],
+    },
+    "en": {
+      "Capital Governorate": [
+        "Salmiya",
+        "Shuwaikh",
+        "Murqab",
+        "Qibla",
+        "Mansouriya",
+        "Shaab",
+        "Sharq",
+        "Mubarakiya",
+        "Dasma",
+        "Sawaber",
+        "Free Trade Zone",
+      ],
+      "Hawalli Governorate": [
+        "Hawalli",
+        "Salmiya",
+        "Maidan Hawalli",
+        "Rumaithiya",
+        "Naqra",
+        "Dahiya",
+        "Shuhadaa",
+        "Naeem",
+        "Jabriya",
+        "Mubarak Al-Kabeer",
+      ],
+      "Farwaniya Governorate": [
+        "Farwaniya",
+        "Jleeb Al-Shuyoukh",
+        "Ardiya",
+        "Khaitan",
+        "Andalus",
+        "Rai",
+        "Zahra",
+        "Naeeja",
+        "Mahboula",
+        "Eqaila",
+        "Dhahra",
+        "Doha",
+      ],
+      "Mubarak Al-Kabeer Governorate": [
+        "Mubarak Al-Kabeer",
+        "Qusour",
+        "Zahra",
+        "Fintas",
+        "Fahad Al-Ahmad District",
+        "Hashimiya",
+        "Nuzha",
+      ],
+      "Ahmadi Governorate": [
+        "Ahmadi",
+        "Sabah Al-Ahmad",
+        "Fahaheel",
+        "Mangaf",
+        "Khiran",
+        "Zahra",
+        "Qurain",
+        "Shuaiba",
+        "Doha",
+      ],
+      "Jahra Governorate": [
+        "Jahra",
+        "Mutlaa",
+        "Sulaibiya",
+        "Oyun",
+        "Qasr",
+        "Kabad",
+        "Hadar",
+        "Waha",
+        "Shamal",
+        "Ahmadi Refinery",
+        "Rujailiya",
+        "Shuwaikh Industrial",
+        "Qusour",
+      ],
+    },
+  };
+
+  /// Helper to get current locale code ("ar" or "en")
+  static String get _locale => Get.locale?.languageCode ?? "ar";
+
+  /// Get all provinces as a list
+  static List<String> get provinces =>
+      provincesWithRegions[_locale]?.keys.toList() ?? [];
+
+  /// Get regions for a specific province
+  static List<String> getRegionsForProvince(String province) {
+    return provincesWithRegions[_locale]?[province] ?? [];
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030358541484",
+    "project_id": "mieskanproject",
+    "storage_bucket": "mieskanproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030358541484:android:0c97e823f869f0310deb09",
+        "android_client_info": {
+          "package_name": "com.onpoint.meiskan.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC0QQCm_gvFkrHock9XQzx1eKHYFUYcl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

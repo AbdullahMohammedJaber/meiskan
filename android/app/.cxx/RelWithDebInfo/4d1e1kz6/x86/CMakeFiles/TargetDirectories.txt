@@ -1,0 +1,2 @@
+D:/projects/meiskan-app/android/app/.cxx/RelWithDebInfo/4d1e1kz6/x86/CMakeFiles/edit_cache.dir
+D:/projects/meiskan-app/android/app/.cxx/RelWithDebInfo/4d1e1kz6/x86/CMakeFiles/rebuild_cache.dir
