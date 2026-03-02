@@ -31,7 +31,7 @@ class OwnerDashboardController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    fetchStatistics();
+    //fetchStatistics();
     fetchProjects(refresh: true);
   }
 

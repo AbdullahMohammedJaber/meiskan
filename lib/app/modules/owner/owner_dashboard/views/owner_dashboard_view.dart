@@ -1,16 +1,15 @@
  
 import 'package:app/app/core/utils/scroll_behavior.dart';
+import 'package:app/app/modules/owner/owner_dashboard/views/owner_data_anlayze.dart';
 import 'package:app/app/widgets/appbar/appbar.dart';
 import 'package:app/app/widgets/cards/project_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
  import 'package:get/get.dart';
 
-import '../../../../core/utils/app_icons.dart';
  
 import '../../../../core/utils/strings_manager.dart';
  
-import '../../../../widgets/cards/statistic_card.dart';
 import '../../../../widgets/states/app_error_state.dart';
 import '../controllers/owner_dashboard_controller.dart';
 
@@ -39,7 +38,7 @@ class OwnerDashboardView extends GetView<OwnerDashboardController> {
                   vertical: 30.h,
                 ),
                 children: [
-                  _statisticsRow(),
+                 OwnerDataAnlayze(),
                   15.verticalSpace,
                   // Projects list
                   Obx(() {
@@ -97,43 +96,7 @@ class OwnerDashboardView extends GetView<OwnerDashboardController> {
     );
   }
 
-  Widget _statisticsRow() => Obx(() {
-        if (controller.statisticsIsLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (controller.statisticsHasError.value) {
-          return Container(
-            padding: EdgeInsets.all(16.w),
-            child: Text(
-              AppStrings.errorOccurred.tr,
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-        }
-
-        return Row(
-          children: [
-            Expanded(
-              child: StatisticCard(
-                value: controller.statistics.value.projects.toString(),
-                label: AppStrings.projectsCount.tr,
-                iconAsset: AppIcons.house,
-                iconBackground: const Color(0xffD8E7E4),
-              ),
-            ),
-            15.horizontalSpace,
-            Expanded(
-              child: StatisticCard(
-                value: controller.statistics.value.offers.toString(),
-                label: AppStrings.offersCount.tr,
-                iconAsset: AppIcons.offer,
-                iconBackground: const Color(0xffD4D3D4),
-              ),
-            ),
-          ],
-        );
-      });
+ 
 
 
 

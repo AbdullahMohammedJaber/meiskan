@@ -49,21 +49,20 @@ class ProjectServices {
       }
 
       final data = response.data['data']?['projects'] as List? ?? [];
-     
-   
 
       await Get.find<UserController>().getUser();
       final user = Get.find<UserController>().user.value;
       if (user!.type == AccountType.owner) {
-         final countersController = Get.find<CountersController>();
+        final countersController = Get.find<CountersController>();
         countersController.setCounters(
-          notifications:
-              response.data['data']['unread_Notifications_Count'] ?? 0,
-          messages: response.data['data']['unread_Messages_Count'] ?? 0,
-        );
+            notifications:
+                response.data['data']['unread_Notifications_Count'] ?? 0,
+            messages: response.data['data']['unread_Messages_Count'] ?? 0,
+            allow_project: response.data['data']['project_Available'] ?? 0,
+            total_project: response.data['data']['count'] ?? 0);
       } else {
-           final countersControllerContractor =
-          Get.find<CountersControllerContractor>();
+        final countersControllerContractor =
+            Get.find<CountersControllerContractor>();
         countersControllerContractor.setCounters(
           notifications:
               response.data['data']['unread_Notifications_Count'] ?? 0,

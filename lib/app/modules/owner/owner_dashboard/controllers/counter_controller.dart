@@ -5,14 +5,22 @@ class CountersController extends GetxController {
   /// Reactive variables
   RxInt  unreadNotifications = 0.obs;
   RxInt  unreadMessages = 0.obs;
+  RxInt  totalProject = 0.obs;
+  RxInt  allowProject = 0.obs;
+
 
   /// Set initial values from API
   void setCounters({
     required int notifications,
     required int messages,
+    required int total_project,
+    required int allow_project,
+
   }) {
     unreadNotifications.value = notifications;
     unreadMessages.value = messages;
+    allowProject.value = allow_project;
+    totalProject.value = total_project;
   }
 
   /// Increment / Decrement

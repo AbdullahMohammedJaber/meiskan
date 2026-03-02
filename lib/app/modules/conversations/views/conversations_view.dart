@@ -146,7 +146,7 @@ class _MessageCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
         decoration: BoxDecoration(
-            color: item.isRead ? Colors.white : Colors.grey.shade200,
+            color: !item.isRead ? Colors.white : Colors.grey.shade200,
             border: Border(
               bottom: BorderSide(color: Colors.grey.shade300),
             )),
