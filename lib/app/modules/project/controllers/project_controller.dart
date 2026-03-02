@@ -8,6 +8,7 @@ import 'package:app/app/core/utils/strings_manager.dart';
 import 'package:app/app/data/model/detailed_project.dart';
 import 'package:app/app/data/model/offer.dart';
 import 'package:app/app/data/network/end_points.dart';
+import 'package:app/app/modules/owner/owner_dashboard/controllers/owner_dashboard_controller.dart';
 import 'package:app/app/services/project_services.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/widgets.dart';
@@ -23,6 +24,8 @@ class ProjectController extends BaseController {
   late final String projectId;
 
   final RxBool isLoading = false.obs;
+  final RxBool isLoadingDelete = false.obs;
+
   final RxBool hasError = false.obs;
   final Rx<DownloadStatus> downloadStatus = DownloadStatus.idle.obs;
   final RxDouble downloadProgress = 0.0.obs;
@@ -288,6 +291,28 @@ class ProjectController extends BaseController {
     }
 
     return '${projectId}_$candidate';
+  }
+
+  Future<void> deleteProject() async {
+    if (projectId.isEmpty) return;
+
+    isLoadingDelete.value = true;
+
+    final result = await ProjectServices.deleteProject(projectId: projectId);
+
+    result.fold(
+      (failure) {
+        isLoadingDelete.value = false;
+        handleError(failure, deleteProject);
+      },
+      (_) {
+        isLoadingDelete.value = false;
+        final dashboardController = Get.find<OwnerDashboardController>();
+        dashboardController.fetchProjects(refresh: true);
+        dashboardController.fetchStatistics();
+        Get.back(result: true);
+      },
+    );
   }
 
   @override

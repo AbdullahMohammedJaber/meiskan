@@ -47,7 +47,7 @@ class ConversationModel {
       "user_Name": userName,
       "last_Message": lastMessage,
       "last_message_At": lastMessageAt.toIso8601String(),
-      "is_Read": isRead,
+      "hasUnreadMessages": isRead,
     };
   }
 
@@ -62,7 +62,7 @@ ConversationModel(
   userName: "$userName",
   lastMessage: "$lastMessage",
   lastMessageAt: $lastMessageAt,
-  isRead: $isRead
+  hasUnreadMessages: $isRead
 )''';
   }
 }

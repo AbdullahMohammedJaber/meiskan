@@ -223,7 +223,7 @@ class _MessageCard extends StatelessWidget {
                             overflow: TextOverflow.visible,
                           ),
                         ),
-                        if (!item.isRead)
+                        if (item.isRead)
                           Container(
                             width: 8.w,
                             height: 8.w,

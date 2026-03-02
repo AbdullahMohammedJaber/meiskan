@@ -4,13 +4,14 @@ class NotificationModel {
   final String message;
   final bool seen;
   final DateTime createdAt;
-
+  final String projectId;
   NotificationModel({
     required this.id,
     required this.message,
     required this.title,
     required this.seen,
     required this.createdAt,
+    required this.projectId
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
@@ -21,5 +22,6 @@ class NotificationModel {
         seen: (json["is_Read"] as bool? ?? false),
         createdAt: DateTime.tryParse((json["created_At"] as String? ?? "")) ??
             DateTime.now(),
+        projectId: (json["project_Id"] as String? ?? ""),
       );
 }

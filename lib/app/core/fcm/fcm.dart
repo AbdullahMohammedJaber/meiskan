@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:app/app/data/locale/locale_provider.dart';
 import 'package:app/app/modules/conversations/controllers/conversations_controller.dart';
 import 'package:app/app/widgets/appbar/appbar.dart';
 import 'package:app/main.dart';
@@ -16,7 +15,6 @@ import 'package:get/get.dart';
 String? token;
 
 class NotificationService {
-  // Singleton pattern
   static final NotificationService _instance = NotificationService._internal();
 
   factory NotificationService() => _instance;
@@ -26,27 +24,30 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // Channel ID for Android
   final String _channelId = "fcm_fallback";
 
   Future<void> init() async {
-    // Initialize local notifications
     await _initLocalNotifications();
 
-    // iOS: show alert, badge, sound even in foreground
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
 
-    // Get FCM token
-    token = await FirebaseMessaging.instance.getToken();
-    setFcmToken(token!);
-    print("\x1B[32m===========>>$token\x1B[0m");
+    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+      return;
+    }
 
-    await FirebaseMessaging.instance.subscribeToTopic("fcm_fallback");
+    if (Platform.isIOS) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      token = await FirebaseMessaging.instance.getAPNSToken();
+    } else {
+      token = await FirebaseMessaging.instance.getToken();
+
+      await FirebaseMessaging.instance.subscribeToTopic("fcm_fallback");
+    }
 
     _listenFCM();
   }
@@ -93,9 +94,11 @@ class NotificationService {
   void _listenFCM() {
     // Foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("FCM Message Received: ${jsonEncode(message.data)}");
+     
 
-      if (message.notification != null && !inChat && idChat.toString() != message.data['projectId'].toString()) {
+      if (message.notification != null &&
+          !inChat &&
+          idChat.toString() != message.data['projectId'].toString()) {
         _showNotification(
           messageId: parseMessageId(message.messageId),
           title: message.notification!.title,
@@ -110,8 +113,7 @@ class NotificationService {
 
     // Background / app opened via notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("FCM Opened Message: ${jsonEncode(message.data)}");
-      if (message.notification != null) {
+       if (message.notification != null) {
         _showNotification(
           messageId: parseMessageId(message.messageId),
           title: message.notification!.title,
@@ -184,10 +186,10 @@ class NotificationService {
 
   void _handleSilent(Map<String, dynamic> data) {
     String type = data['type'].toString();
-      counters?.incrementNotifications();
+    
 
     if (type == "Offer") {
-      
+      counters?.incrementNotifications();
     } else if (type == "Message") {
       counters?.incrementMessages();
 
