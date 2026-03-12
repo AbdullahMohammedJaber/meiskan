@@ -14,10 +14,10 @@ class ContractorHomeController extends BaseController {
   RxInt selectedIndex = 0.obs;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final pages = [
+  final pages = const [
     ContractorDashboardView(),
-    const NotificationsView(showAppBar: false),
-    const ContractorProfileView(),
+    NotificationsView(showAppBar: false),
+    ContractorProfileView(),
   ];
 
   // Categories observables

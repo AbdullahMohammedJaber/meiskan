@@ -1,6 +1,7 @@
 import 'package:app/app/core/utils/app_icons.dart';
 import 'package:app/app/core/utils/colors_manager.dart';
 import 'package:app/app/core/utils/strings_manager.dart';
+import 'package:app/app/modules/notifications/controllers/notifications_controller.dart';
 import 'package:app/app/widgets/appbar/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +71,13 @@ class ContractorHomeView extends GetView<ContractorHomeController> {
           final isSelected = selectedIndex == index;
           return Expanded(
             child: GestureDetector(
-              onTap: () => controller.selectedIndex(index),
+              onTap: () {
+                if (index == 1) {
+                  Get.put(NotificationsController(),
+                      tag: UniqueKey().toString());
+                }
+                controller.selectedIndex(index);
+              },
               child: Container(
                 height: double.infinity,
                 color: Colors.transparent,

@@ -28,83 +28,90 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 25.w,
-        right: 25.w,
-        top: 25.h,
-        bottom: 20.h,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 25.r,
-                backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-                child: SvgPicture.asset(
-                  AppIcons.user,
-                  height: 20.h,
-                  color: AppColors.primaryColor,
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed('${Routes.PROFILE_CONTRACTOR_ID}/${offer.contractorId}');
+ 
+      },
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.only(
+          left: 25.w,
+          right: 25.w,
+          top: 25.h,
+          bottom: 20.h,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 25.r,
+                  backgroundColor: AppColors.primaryColor.withOpacity(0.1),
+                  child: SvgPicture.asset(
+                    AppIcons.user,
+                    height: 20.h,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
-              ),
-              12.horizontalSpace,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      offer.fullName,
-                      style: Get.textTheme.bodyMedium!.copyWith(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
+                12.horizontalSpace,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        offer.fullName,
+                        style: Get.textTheme.bodyMedium!.copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    5.verticalSpace,
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppIcons.budget,
-                          height: 20.h,
-                        ),
-                        4.horizontalSpace,
-                        Text(
-                          '${offer.offerPrice} ${AppStrings.kwd.tr}',
-                          style: Get.textTheme.bodySmall!.copyWith(
-                            fontSize: 11.sp,
+                      5.verticalSpace,
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppIcons.budget,
+                            height: 20.h,
                           ),
-                        ),
-                        5.horizontalSpace,
-                        SvgPicture.asset(
-                          AppIcons.clock,
-                          height: 20.h,
-                        ),
-                        4.horizontalSpace,
-                        Text(
-                          '${offer.offerDuration} ${AppStrings.month.tr}',
-                          style: Get.textTheme.bodySmall!.copyWith(
-                            fontSize: 11.sp,
+                          4.horizontalSpace,
+                          Text(
+                            '${offer.offerPrice} ${AppStrings.kwd.tr}',
+                            style: Get.textTheme.bodySmall!.copyWith(
+                              fontSize: 11.sp,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          5.horizontalSpace,
+                          SvgPicture.asset(
+                            AppIcons.clock,
+                            height: 20.h,
+                          ),
+                          4.horizontalSpace,
+                          Text(
+                            '${offer.offerDuration} ${AppStrings.month.tr}',
+                            style: Get.textTheme.bodySmall!.copyWith(
+                              fontSize: 11.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          10.verticalSpace,
-          Text(
-            offer.offerDescription,
-            maxLines: null,
-            overflow: TextOverflow.visible,
-            style: Get.textTheme.bodyMedium!.copyWith(
-              fontSize: 12.sp,
+              ],
             ),
-          ),
-          _actionsButtons(),
-        ],
+            10.verticalSpace,
+            Text(
+              offer.offerDescription,
+              maxLines: null,
+              overflow: TextOverflow.visible,
+              style: Get.textTheme.bodyMedium!.copyWith(
+                fontSize: 12.sp,
+              ),
+            ),
+            _actionsButtons(),
+          ],
+        ),
       ),
     );
   }
@@ -134,7 +141,7 @@ class OfferCard extends StatelessWidget {
     }
 
     final user = Get.find<UserController>().user();
-    if(user==null) return SizedBox.shrink();
+    if (user == null) return SizedBox.shrink();
     if (user.id == project?.ownerId) {
       return GestureDetector(
         onTap: _contactContractor,

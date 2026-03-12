@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 
 class CountersController extends GetxController {
-
   /// Reactive variables
-  RxInt  unreadNotifications = 0.obs;
-  RxInt  unreadMessages = 0.obs;
-  RxInt  totalProject = 0.obs;
-  RxInt  allowProject = 0.obs;
-
+  RxInt unreadNotifications = 0.obs;
+  RxInt unreadMessages = 0.obs;
+  RxInt totalProject = 0.obs;
+  RxInt allowProject = 0.obs;
 
   /// Set initial values from API
   void setCounters({
@@ -15,7 +13,6 @@ class CountersController extends GetxController {
     required int messages,
     required int total_project,
     required int allow_project,
-
   }) {
     unreadNotifications.value = notifications;
     unreadMessages.value = messages;
@@ -37,4 +34,6 @@ class CountersController extends GetxController {
   /// Reset
   void resetNotifications() => unreadNotifications.value = 0;
   void resetMessages() => unreadMessages.value = 0;
+  void setMessageCount(int count) => unreadMessages.value = count;
+  void setNotificationCount(int count) => unreadNotifications.value = count;
 }

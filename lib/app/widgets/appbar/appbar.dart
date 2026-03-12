@@ -13,7 +13,9 @@ import 'package:get/get.dart';
 import '../../core/utils/app_images.dart';
 import '../../core/utils/strings_manager.dart';
 import 'appbar_controller.dart';
-  dynamic counters;
+
+dynamic counters;
+
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
@@ -21,49 +23,44 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
-  
+
   @override
- 
   Size get preferredSize => Size.fromHeight(65.h);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  Future<void> _initCounter() async {
+    final userController = Get.find<UserController>();
 
-  
- Future<void> _initCounter() async {
-  final userController = Get.find<UserController>();
- 
+    final user = userController.user.value;
 
-  final user = userController.user.value;
+    if (user == null) return;
 
-  if (user == null) return;
-
-  if (user.type == AccountType.owner) {
-    if (!Get.isRegistered<CountersController>()) {
-      counters = Get.put(CountersController(), permanent: true);
+    if (user.type == AccountType.owner) {
+      if (!Get.isRegistered<CountersController>()) {
+        counters = Get.put(CountersController(), permanent: true);
+      } else {
+        counters = Get.find<CountersController>();
+      }
     } else {
-      counters = Get.find<CountersController>();
+      if (!Get.isRegistered<CountersControllerContractor>()) {
+        counters = Get.put(CountersControllerContractor(), permanent: true);
+      } else {
+        counters = Get.find<CountersControllerContractor>();
+      }
     }
-  } else {
-    if (!Get.isRegistered<CountersControllerContractor>()) {
-      counters =
-          Get.put(CountersControllerContractor(), permanent: true);
-    } else {
-      counters = Get.find<CountersControllerContractor>();
+
+    if (mounted) {
+      setState(() {});
     }
   }
-
-  if (mounted) {
-    setState(() {});
-  }
-}
 
   @override
   void initState() {
-  
     super.initState();
-      _initCounter();
+    _initCounter();
   }
+
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<TopDrawerController>()) {
@@ -80,13 +77,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
       title: _buildAppBarContainer(context),
     );
   }
-
- 
 }
 
 Widget _buildAppBarContainer(BuildContext context) {
   final controller = TopDrawerController.to;
- 
 
   return Obx(
     () {
@@ -127,7 +121,7 @@ Widget _buildAppBarContainer(BuildContext context) {
               10.horizontalSpace,
               _buildActionButton(
                 svgIcon: AppIcons.email,
-                 badgeCount: counters?.unreadMessages,
+                badgeCount: counters?.unreadMessages,
                 onTap: () => Get.toNamed(Routes.MESSAGES),
               ),
               10.horizontalSpace,
@@ -311,7 +305,7 @@ Widget _buildActionButton({
                       color: AppColors.primaryColor,
                     ),
         ),
-      if (badgeCount != null && badgeCount.value > 0)
+        if (badgeCount != null && badgeCount.value > 0)
           Obx(() {
             return Positioned(
               right: -6,

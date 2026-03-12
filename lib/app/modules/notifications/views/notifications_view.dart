@@ -15,18 +15,36 @@ import 'package:intl/intl.dart' show DateFormat;
 
 import '../controllers/notifications_controller.dart';
 
-class NotificationsView extends GetView<NotificationsController> {
+class NotificationsView extends StatefulWidget {
   final bool showAppBar;
 
   const NotificationsView({super.key, this.showAppBar = true});
 
   @override
-  NotificationsController get controller => Get.put(NotificationsController());
+  State<NotificationsView> createState() => _NotificationsViewState();
+}
+
+class _NotificationsViewState extends State<NotificationsView> {
+  late NotificationsController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        Get.put(NotificationsController(), tag: UniqueKey().toString());
+  }
+
+  @override
+  void dispose() {
+    Get.delete<NotificationsController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !showAppBar ? null : const CustomAppBar(),
+      appBar: !widget.showAppBar ? null : const CustomAppBar(),
       body: SafeArea(
         child: Obx(() {
           if (controller.hasError.value) {
@@ -39,7 +57,6 @@ class NotificationsView extends GetView<NotificationsController> {
             return Center(child: Text(AppStrings.loading.tr));
           }
 
-          // Show empty state when there are no notifications
           if (!controller.isLoading.value && controller.notifications.isEmpty) {
             return const AppEmptyState(
               title: AppStrings.noNotifications,
@@ -52,14 +69,6 @@ class NotificationsView extends GetView<NotificationsController> {
             onRefresh: () async => await controller.fetch(refresh: true),
             child: ScrollConfiguration(
               behavior: CustomScrollBehavior(),
-              /*child: NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
-                    controller.loadMore();
-                  }
-                  return false;
-                },*/
               child: Column(
                 children: [
                   Expanded(
@@ -70,11 +79,9 @@ class NotificationsView extends GetView<NotificationsController> {
                                   !controller.hasError.value
                               ? 1
                               : 0),
-                      // Add one for loading indicator if needed
                       separatorBuilder: (_, __) => 1.verticalSpace,
                       itemBuilder: (context, index) {
                         if (index >= controller.notifications.length) {
-                          // This is the loading indicator at the end for pagination
                           return Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Center(child: Text(AppStrings.loading.tr)),
@@ -86,18 +93,9 @@ class NotificationsView extends GetView<NotificationsController> {
                       },
                     ),
                   ),
-                  // Show loading indicator when loading more items
-                  if (controller.isLoading.value &&
-                      !controller.hasError.value &&
-                      controller.notifications.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(child: Text(AppStrings.loading.tr)),
-                    ),
                 ],
               ),
             ),
-            //   ),
           );
         }),
       ),
@@ -114,7 +112,7 @@ class _NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-       Get.toNamed('${Routes.PROJECT}/${item.projectId.toString()}');
+        Get.toNamed('${Routes.PROJECT}/${item.projectId.toString()}');
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),

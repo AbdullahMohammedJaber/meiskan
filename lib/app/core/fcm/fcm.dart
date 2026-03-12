@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:app/app/modules/conversations/controllers/conversations_controller.dart';
+import 'package:app/app/modules/project/controllers/project_controller.dart';
 import 'package:app/app/widgets/appbar/appbar.dart';
 import 'package:app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,21 +29,28 @@ class NotificationService {
 
   Future<void> init() async {
     await _initLocalNotifications();
-
+    final FirebaseMessaging messaging = FirebaseMessaging.instance;
     NotificationSettings settings =
         await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    await messaging.setAutoInitEnabled(true);
     if (settings.authorizationStatus != AuthorizationStatus.authorized) {
       return;
     }
 
     if (Platform.isIOS) {
       await Future.delayed(const Duration(milliseconds: 500));
-      token = await FirebaseMessaging.instance.getAPNSToken();
+      await FirebaseMessaging.instance.getAPNSToken();
+      token = await FirebaseMessaging.instance.getToken();
     } else {
       token = await FirebaseMessaging.instance.getToken();
 
@@ -94,8 +102,6 @@ class NotificationService {
   void _listenFCM() {
     // Foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-     
-
       if (message.notification != null &&
           !inChat &&
           idChat.toString() != message.data['projectId'].toString()) {
@@ -113,7 +119,7 @@ class NotificationService {
 
     // Background / app opened via notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-       if (message.notification != null) {
+      if (message.notification != null) {
         _showNotification(
           messageId: parseMessageId(message.messageId),
           title: message.notification!.title,
@@ -166,30 +172,27 @@ class NotificationService {
 
     Map<String, dynamic> data = jsonDecode(response.payload!);
 
-    // Example: handle routing by notification type
     String type = data['notification_type_id'].toString();
     log("Notification Type: $type");
 
     switch (type) {
       case "1":
-        // Navigate to Auction Win Page
-
         break;
       case "30":
-        // Silent / custom handling
         break;
       default:
-        // Default action
         break;
     }
   }
 
   void _handleSilent(Map<String, dynamic> data) {
     String type = data['type'].toString();
-    
-
+    log("Silent Notification: ${data.toString()}");
     if (type == "Offer") {
       counters?.incrementNotifications();
+      if (Get.isRegistered<ProjectController>()) {
+        Get.find<ProjectController>().getProjectDetails();
+      }
     } else if (type == "Message") {
       counters?.incrementMessages();
 

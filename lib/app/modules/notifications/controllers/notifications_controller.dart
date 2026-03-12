@@ -12,9 +12,10 @@ class NotificationsController extends BaseController {
   final hasMoreData = true.obs;
   final itemsPerPage = 10; // Define items per page
 
+  @override
   onInit() {
+    fetch(refresh: true);
     super.onInit();
-    fetch();
   }
 
   Future<void> fetch({bool refresh = false}) async {
@@ -35,7 +36,7 @@ class NotificationsController extends BaseController {
       page: currentPage.value,
       pageSize: itemsPerPage,
     );
-   
+
     isLoading.value = false;
     failureOrSuccess.fold(
       (failure) {
@@ -43,7 +44,6 @@ class NotificationsController extends BaseController {
         handleError(failure, () => fetch(refresh: refresh));
       },
       (fetchedNotifications) {
-        NotificationServices.markAsRead(); // Mark all notifications as read when fetched
         if (fetchedNotifications.isEmpty) {
           hasMoreData.value = false;
         } else {
@@ -53,6 +53,8 @@ class NotificationsController extends BaseController {
             hasMoreData.value = false;
           }
         }
+        NotificationServices
+            .markAsRead(); // Mark all notifications as read when fetched
       },
     );
   }

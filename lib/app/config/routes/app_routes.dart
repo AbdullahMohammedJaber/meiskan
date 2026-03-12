@@ -28,6 +28,7 @@ abstract class Routes {
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
   static const FORGOT_PASSWORD_OTP = _Paths.FORGOT_PASSWORD_OTP;
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
+  static const PROFILE_CONTRACTOR_ID = _Paths.PROFILE_CONTRACTOR_ID;
 }
 
 abstract class _Paths {
@@ -57,4 +58,5 @@ abstract class _Paths {
   static const FORGOT_PASSWORD = '/forgot-password';
   static const FORGOT_PASSWORD_OTP = '/forgot-password-otp';
   static const RESET_PASSWORD = '/reset-password';
+  static const PROFILE_CONTRACTOR_ID = '/contractor-profile-id';
 }

@@ -1,3 +1,5 @@
+import 'package:app/app/modules/contractor/contractor_profile/bindings/contractor_profile_id_binding.dart';
+import 'package:app/app/modules/contractor/contractor_profile/views/contractor_profile_id.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../../middlwares/user_middleware.dart';
@@ -56,6 +58,11 @@ class AppPages {
       name: _Paths.SPLASH,
       page: () => SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_CONTRACTOR_ID+ '/:id',
+      page: () =>const ContractorProfileId( ),
+      binding: ContractorProfileIdBinding(),
     ),
     GetPage(
       name: _Paths.HOME,

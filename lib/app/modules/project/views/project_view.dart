@@ -60,31 +60,32 @@ class ProjectView extends GetView<ProjectController> {
                     ? _downloadButton()
                     : const SizedBox()),
                 5.verticalSpace,
-                 Obx(() => controller.isLoadingDelete.value == false  
-                    ? GestureDetector(
-                      onTap: (){
-                        controller.deleteProject();
-                      },
-                      child: Container(
-                        height: 60.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "حذف المشروع",
-                            style: Get.textTheme.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.red,
+                if (controller.projectDetails()!.ownerId ==
+                    Get.find<UserController>().user()!.id)
+                  Obx(() => controller.isLoadingDelete.value == false
+                      ? GestureDetector(
+                          onTap: () {
+                            controller.deleteProject();
+                          },
+                          child: Container(
+                            height: 60.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "حذف المشروع",
+                                style: Get.textTheme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                    :const Center(child:  CircularProgressIndicator())),
-
+                        )
+                      : const Center(child: CircularProgressIndicator())),
               ],
             );
           }),
@@ -397,7 +398,7 @@ class ProjectView extends GetView<ProjectController> {
             ),
             2.verticalSpace,
             Text(
-              controller.projectDetails()!.note  ,
+              controller.projectDetails()!.note,
               maxLines: null,
               overflow: TextOverflow.visible,
               style: Get.textTheme.bodyMedium!.copyWith(fontSize: 14.sp),

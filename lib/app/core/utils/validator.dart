@@ -84,14 +84,37 @@ class Validator {
     return null;
   }
 
-  static String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return AppStrings.invalidPassword.tr;
-    } else if (value.length < 6) {
-      return AppStrings.passwordLengthError.tr;
-    }
-    return null;
+ static String? passwordValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return AppStrings.invalidPassword.tr;
   }
+
+  if (value.length < 6) {
+    return AppStrings.passwordLengthError.tr;
+  }
+
+  // يحتوي على حرف كبير
+  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    return "يجب أن تحتوي كلمة المرور على حرف كبير";
+  }
+
+  // يحتوي على حرف صغير
+  if (!RegExp(r'[a-z]').hasMatch(value)) {
+    return "يجب أن تحتوي كلمة المرور على حرف صغير";
+  }
+
+  // يحتوي على رقم
+  if (!RegExp(r'[0-9]').hasMatch(value)) {
+    return "يجب أن تحتوي كلمة المرور على رقم";
+  }
+
+  // يحتوي على رمز
+  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return "يجب أن تحتوي كلمة المرور على رمز";
+  }
+
+  return null;
+}
 
   static String? phoneValidator(String? value) {
     final normalized = value?.trim() ?? '';

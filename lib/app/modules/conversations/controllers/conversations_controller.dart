@@ -1,7 +1,7 @@
 import 'package:app/app/core/base/base_viewmodel.dart';
 import 'package:app/app/data/model/conversation.dart';
 import 'package:app/app/services/conversation_services.dart';
- 
+
 import 'package:get/get.dart';
 
 class ConversationsController extends BaseController {
